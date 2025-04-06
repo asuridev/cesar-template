@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}"
+        classpath "org.kordamp.gradle:jandex-gradle-plugin:${kordamp_gradle_version}"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${sonarsource_scanner_gradle_version}"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:${jfrog_artifactory_version}"
+    }
+    configurations.classpath {
+        resolutionStrategy {
+            cacheDynamicVersionsFor 0, 'seconds'
+            cacheChangingModulesFor 0, 'seconds'
+        }
+    }
+}
+
+plugins {
+    id 'org.sonarqube' version "${sonar_version}"
+    id 'jacoco'
+    id "io.freefair.lombok" version "${freefair_lombok_version}"
+    id "com.jfrog.artifactory" version "${jfrog_artifactory_version}"
+    id 'java-library'
+}
+
+sonarqube {
+    def modules = subprojects.projectDir.collect { "${it.toString().replace(project.projectDir.toString() + "/", "")}" }
+    properties {
+        property "sonar.sourceEnconding", "UTF-8"
+        property "sonar.modules", "${modules.join(',')}"
+        property "sonar.sources", "src,deployment,settings.gradle,main.gradle,build.gradle,${modules.collect { "${it}/build.gradle" }.join(',')}"
+        property "sonar.exclusions", "**/MainApplication.java"
+        property "sonar.test", "src/test"
+        property "sonar.java.binaries", ""
+        property "sonar.junit.reportsPath", ""
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+    }
+}
+
+apply from: './main.gradle'

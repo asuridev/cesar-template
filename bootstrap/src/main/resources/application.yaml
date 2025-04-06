@@ -1,0 +1,34 @@
+spring:
+  webflux:
+    base-path: /api/v1/users
+  application:
+    name: "ms-cesar-template"
+  profiles:
+    active: ${ENVIRONMENT:dev}  #dev, local, test, prod
+    group:
+      dev:
+        - "dev"
+        - "services-dev"
+        - "infrastructure-dev"
+        - "controllers-dev"
+      local:
+      - "local"
+      - "model-local"
+      - "services-local"
+      - "utilities-local"
+      - "controllers-local"
+      - "persistence-local"
+      test:
+      - "test"
+      - "model-test"
+      - "services-test"
+      - "utilities-test"
+      - "controllers-test"
+      - "persistence-test"
+      prod:
+      - "prod"
+      - "model-prod"
+      - "services-prod"
+      - "utilities-prod"
+      - "controllers-prod"
+      - "persistence-prod"

@@ -1,0 +1,7 @@
+application:
+  batch:
+    size: ${BATCH_USES_SIZE}
+  email:
+    sender: ${EMAIL_SENDER}
+    subject-error: Error generando el reporte de usos irregulares
+    subject-not-error: Reporte de usos irregulares

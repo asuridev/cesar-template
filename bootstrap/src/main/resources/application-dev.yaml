@@ -1,0 +1,9 @@
+server:
+  port: 3000
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+
