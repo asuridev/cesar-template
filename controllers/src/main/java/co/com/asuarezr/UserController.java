@@ -24,8 +24,9 @@ public class UserController {
     return null;
   }
 
+
   @PostMapping
   public CreateUserDto create(@RequestBody @Valid CreateUserDto createUserDto){
-    return this.userService.create(createUserDto);
+    return this.userService.createUser(createUserDto);
   }
 }
