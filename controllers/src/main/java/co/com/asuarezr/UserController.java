@@ -1,12 +1,11 @@
 package co.com.asuarezr;
 
 import co.com.asuarezr.dtos.CreateUserDto;
-import co.com.asuarezr.dtos.UserDto;
+import co.com.asuarezr.dtos.ResponseUserDto;
+import co.com.asuarezr.dtos.UpdateUserDto;
 import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,14 +18,35 @@ public class UserController {
     this.userService = userService;
   }
 
-  @GetMapping
-  public List<UserDto> findAll(){
-    return null;
-  }
-
-
   @PostMapping
-  public CreateUserDto create(@RequestBody @Valid CreateUserDto createUserDto){
+  @ResponseStatus(HttpStatus.CREATED)
+  public ResponseUserDto create(@RequestBody @Valid CreateUserDto createUserDto){
     return this.userService.createUser(createUserDto);
   }
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public List<ResponseUserDto> findAll(){
+    return this.userService.findAllUsers();
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @GetMapping("/{id}")
+  public ResponseUserDto findOne(@PathVariable("id") String id){
+    return this.userService.findUserById(id);
+  }
+
+  @ResponseStatus(HttpStatus.OK)
+  @PatchMapping("/{id}")
+  public ResponseUserDto update(@Valid @RequestBody UpdateUserDto updateUserDto, @PathVariable("id") String id){
+    return this.userService.updateUser(updateUserDto, id);
+  }
+
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @DeleteMapping("/{id}")
+  public void remove(@PathVariable("id") String id){
+     this.userService.deleteUser(id);
+  }
+
+
 }

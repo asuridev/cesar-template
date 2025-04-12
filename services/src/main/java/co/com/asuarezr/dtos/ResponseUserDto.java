@@ -1,3 +1,12 @@
 package co.com.asuarezr.dtos;
 
-public record ResponseUserDto() { }
+import jakarta.validation.constraints.NotBlank;
+
+public record ResponseUserDto(
+
+        String name,
+
+        String lastname,
+
+        String email
+) { }

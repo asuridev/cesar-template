@@ -1,31 +1,56 @@
 package co.com.asuarezr.repositories;
 
 import co.com.asuarezr.dtos.CreateUserDto;
+import co.com.asuarezr.dtos.ResponseUserDto;
+import co.com.asuarezr.dtos.UpdateUserDto;
 import co.com.asuarezr.entities.UserEntity;
+import co.com.asuarezr.handlerExceptions.customExceptions.NotFoundException;
+import co.com.asuarezr.mappers.UserMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
   private final UserCrudRepository userCrudRepository;
+  private final UserMapper userMapper;
 
-  public UserRepositoryImpl(UserCrudRepository userCrudRepository) {
+  public UserRepositoryImpl(
+          UserCrudRepository userCrudRepository,
+          UserMapper userMapper
+  ) {
     this.userCrudRepository = userCrudRepository;
+    this.userMapper = userMapper;
   }
 
   @Override
-  public CreateUserDto save(CreateUserDto createUserDto) {
-    UserEntity createUserEntity = new UserEntity(
-            null,
-            createUserDto.name(),
-            createUserDto.lastname(),
-            createUserDto.lastname()
-    );
-    UserEntity newEntity = userCrudRepository.save(createUserEntity);
-    return new CreateUserDto(
-            newEntity.getName(),
-            newEntity.getLastName(),
-            newEntity.getEmail()
-    );
+  public ResponseUserDto save(CreateUserDto createUserDto) {
+    UserEntity newUser =   this.userCrudRepository.save(this.userMapper.toUserEntity(createUserDto));
+    return this.userMapper.toResponseUserDto(newUser);
   }
+
+  @Override
+  public List<ResponseUserDto> findAll() {
+    return this.userCrudRepository.findAllUsers();
+  }
+
+  @Override
+  public Optional<ResponseUserDto> findOne(String id) {
+     return this.userCrudRepository.findUserById(id);
+  }
+
+  @Override
+  public ResponseUserDto update(UpdateUserDto updateUserDto, String id) {
+    UserEntity userEntity = this.userCrudRepository.findById(id).orElseThrow(NotFoundException::new);
+    UserEntity userUpdated = this.userCrudRepository.save(this.userMapper.merge(userEntity, updateUserDto));
+    return this.userMapper.toResponseUserDto(userUpdated);
+  }
+
+  @Override
+  public void delete(String id) {
+    this.userCrudRepository.deleteById(id);
+  }
+
 }

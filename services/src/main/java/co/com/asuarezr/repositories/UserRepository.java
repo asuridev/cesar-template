@@ -1,7 +1,16 @@
 package co.com.asuarezr.repositories;
 
 import co.com.asuarezr.dtos.CreateUserDto;
+import co.com.asuarezr.dtos.ResponseUserDto;
+import co.com.asuarezr.dtos.UpdateUserDto;
+
+import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository {
-  public CreateUserDto save(CreateUserDto createUserDto);
+  public ResponseUserDto save(CreateUserDto createUserDto);
+  public List<ResponseUserDto> findAll();
+  public Optional<ResponseUserDto> findOne(String id);
+  public ResponseUserDto update(UpdateUserDto updateUserDto, String id);
+  public void delete(String id);
 }
