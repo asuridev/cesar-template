@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserRepository {
   public ResponseUserDto save(CreateUserDto createUserDto);
   public List<ResponseUserDto> findAll();
-  public Optional<ResponseUserDto> findOne(String id);
+  public ResponseUserDto findOne(String id);
   public ResponseUserDto update(UpdateUserDto updateUserDto, String id);
   public void delete(String id);
 }

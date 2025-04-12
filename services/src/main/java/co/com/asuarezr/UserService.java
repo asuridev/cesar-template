@@ -29,11 +29,11 @@ public class UserService {
   }
 
   public ResponseUserDto findUserById(String id){
-    return this.userRepository.findOne(id).orElseThrow(NotFoundException::new);
+    return this.userRepository.findOne(id);
   }
 
   public ResponseUserDto updateUser(UpdateUserDto updateUserDto, String id){
-     return userRepository.updateUser(updateUserDto, id);
+     return userRepository.update(updateUserDto, id);
   }
 
   public void deleteUser(String id){
