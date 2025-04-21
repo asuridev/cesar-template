@@ -21,13 +21,16 @@ public class CorsServerConfiguration {
   @Value("#{'${cors.allowedHeaders}'.split(',')}")
   private List<String> allowedHeaders;
 
+  private List<String> removeWhiteSpace(List<String> list){
+      return list.stream().map(String::trim).toList();
+  }
 
   @Bean
   CorsWebFilter corsFilter() {
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(allowedOrigins);
-    configuration.setAllowedMethods(allowedMethods);
-    configuration.setAllowedHeaders(allowedHeaders);
+    configuration.setAllowedOrigins(removeWhiteSpace(allowedOrigins));
+    configuration.setAllowedMethods(removeWhiteSpace(allowedMethods));
+    configuration.setAllowedHeaders(removeWhiteSpace(allowedHeaders));
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);
     return new CorsWebFilter(source);

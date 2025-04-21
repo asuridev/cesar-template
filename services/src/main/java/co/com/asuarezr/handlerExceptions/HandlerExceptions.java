@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 import org.springframework.web.server.MethodNotAllowedException;
 import org.springframework.web.server.ServerWebInputException;
 import org.yaml.snakeyaml.constructor.DuplicateKeyException;
@@ -53,6 +54,7 @@ public class HandlerExceptions {
           ServerWebInputException.class,
           MethodArgumentTypeMismatchException.class,
           HttpMessageNotReadableException.class,
+          NoResourceFoundException.class
           //DataIntegrityViolationException.class
   })
   @ResponseBody

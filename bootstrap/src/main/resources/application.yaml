@@ -1,6 +1,6 @@
 spring:
   webflux:
-    base-path: /api/v1/users
+    base-path: /api/v1
   application:
     name: "ms-cesar-template"
   profiles:

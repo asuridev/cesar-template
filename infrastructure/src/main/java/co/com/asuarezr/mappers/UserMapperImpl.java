@@ -4,7 +4,6 @@ import co.com.asuarezr.dtos.CreateUserDto;
 import co.com.asuarezr.dtos.ResponseUserDto;
 import co.com.asuarezr.dtos.UpdateUserDto;
 import co.com.asuarezr.entities.UserEntity;
-import jakarta.persistence.Column;
 import org.springframework.stereotype.Component;
 
 @Component
